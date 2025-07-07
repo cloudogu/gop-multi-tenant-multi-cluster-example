@@ -3,6 +3,10 @@
 IDP as a service: Deploy multiple tenants to dedicated clusters, managed centrally (Hub and spoke) using Argo CD app
 sets and [GOP](https://github.com/cloudogu/gitops-playground).
 
+[![IDP as a Service](IDPaaS.drawio.svg)](https://cdn.jsdelivr.net/gh/cloudogu/gop-multi-tenant-multi-cluster-example@main/IDPaaS.drawio.svg "View full size")
+
+See also [slides of the talk Repo structures at CloudLand 2025](https://cloudogu.github.io/gitops-talks/2025-07-cloud-land/#).
+
 ## Running locally
 
 ### Create management cluster / tenant0
