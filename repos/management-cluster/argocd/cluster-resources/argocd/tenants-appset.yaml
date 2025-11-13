@@ -15,20 +15,16 @@ spec:
           - path: "*/tenant-values.yaml"
   template:
     metadata:
-      name: tenant-{{.name}}
+      name: tenant-{{.config.application.namePrefix}}
       labels:
-        tenant: '{{.name}}'
+        tenant: '{{.config.application.namePrefix}}'
     spec:
       project: argocd
       sources:
         - repoURL: ghcr.io/cloudogu
           chart: gop-helm
-          targetRevision: 0.2.0
+          targetRevision: 0.4.0
           helm:
-            valuesObject:
-              extraArgs:
-                - '--base-url=http://{{ .baseHost }}'
-                - '--name-prefix={{ .name }}'
             valueFiles:
               - $valuesRef/global-values.yaml
               - $valuesRef/{{ .path.path }}/tenant-values.yaml

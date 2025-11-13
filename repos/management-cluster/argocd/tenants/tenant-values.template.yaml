@@ -1,0 +1,16 @@
+# Copy this to folder tenant1/tenant-values.yaml to be picked up by appset
+apiServerUrl: https://x.x.x.x:6443
+
+config:
+  application:
+    namePrefix: "tenant1"
+
+#  features:
+#    monitoring:
+#      active: true
+
+#  registry:
+#    active: true
+#    internalPort: 30011 # replace last char by tenant index in init-tenant.sh
+#  jenkins:
+#    active: true

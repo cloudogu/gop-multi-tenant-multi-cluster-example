@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: tenant
+  namespace: ${config.application.namePrefix}argocd
+spec:
+  destination:
+    namespace: ${config.application.namePrefix}argocd
+    server: https://kubernetes.default.svc
+  project: argocd
+  source:
+    path: argocd/
+    repoURL:  "${config.content.variables.scmmUrl}/repo/${config.application.namePrefix}argocd/gitops"
+    #repoURL:  "http://scmm.${config.application.namePrefix}scm-manager.svc.cluster.local/scm/repo/${config.application.namePrefix}argocd/gitops"
+    targetRevision: main
+    directory:
+      recurse: true
+  syncPolicy:
+    automated:
+      prune: false # is set to false to prevent apps to be deleted by accident
+      selfHeal: true

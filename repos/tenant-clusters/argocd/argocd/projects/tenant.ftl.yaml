@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: tenant
+  namespace: ${config.application.namePrefix}argocd
+  annotations:
+<#if config.features.mail.active>
+     notifications.argoproj.io/subscribe.email: ${config.features.argocd.emailToUser}
+</#if>
+spec:
+  description: Contains examples of end-user applications
+  destinations:
+    - namespace: podinfo
+      server: https://kubernetes.default.svc
+  sourceRepos:
+    - ghcr.io/stefanprodan/charts
+    - "${config.content.variables.scmmUrl}/repo/${config.application.namePrefix}argocd/gitops"
+#    - http://scmm.${config.application.namePrefix}scm-manager.svc.cluster.local/scm/repo/${config.application.namePrefix}argocd/gitops
+
+  # allow to only see application resources from the specified namespace
+  sourceNamespaces:
+    - podinfo
+
+  # Allow all namespaced-scoped resources to be created
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
+
+  # Deny all cluster-scoped resources from being created. Least privilege.
+  clusterResourceWhitelist:

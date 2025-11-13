@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: argocd
+  namespace: argocd
+spec:
+  description: AppProject for ArgoCD-specific applications.
+  destinations:
+    - namespace: '*'
+      server: '*' # Allow for multi-cluster
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  # must be able to get all git repos because of the Applications pointing to other repos
+  sourceRepos:
+    - '*'
+  # Allow applications from all namespaces to use this project for now.
+  sourceNamespaces:
+    - '*'

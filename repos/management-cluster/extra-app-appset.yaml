@@ -15,27 +15,27 @@ spec:
           - path: "*/tenant-values.yaml"
   template:
     metadata:
-      name: extra-app-{{.name}}
+      name: extra-app-{{.config.application.namePrefix}}
       labels:
-        tenant: '{{.name}}'
+        tenant: '{{.config.application.namePrefix}}'
     spec:
-      project: argocd
-      sources:
-        - repoURL: 'https://stefanprodan.github.io/podinfo'
-          targetRevision: 6.9.0
-          chart: podinfo
-          helm:
-            # Option 1: template values from tenant-values indirectly
-            valuesObject:
-              ui:
-                message: Welcome to Tenant {{.name}}
-              ingress:
-                enabled: true
-                hosts:
-                  - host: extra.{{ regexReplaceAll ":.*$" .baseHost "" }} # Remove port, not needed for hostname
-                    paths:
-                      - path: /
-                        pathType: ImplementationSpecific
+  project: argocd
+  sources:
+    - repoURL: 'https://stefanprodan.github.io/podinfo'
+      targetRevision: 6.9.2
+      chart: podinfo
+      helm:
+        # Option 1: template values from tenant-values indirectly
+        valuesObject:
+          ui:
+            message: Welcome to Tenant {{.config.application.namePrefix}}
+          ingress:
+            enabled: true
+            hosts:
+              - host: extra.{{ regexReplaceAll ":.*$" .config.application.baseUrl "" }} # Remove port, not needed for hostname
+                paths:
+                  - path: /
+                    pathType: ImplementationSpecific
             valueFiles:
               #- $valuesRef/global-values.yaml 
               # Option 2: Set values in tenant-values that are picked up by this chart
